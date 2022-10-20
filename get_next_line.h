@@ -6,7 +6,7 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:50:35 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/19 15:18:19 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/20 15:23:39 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@
 
 char	*get_next_line(int fd);
 
-void	ft_bzero(void *b, size_t len);
 void	*ft_calloc(size_t count, size_t nbyte);
+char	*ft_strchr(const char *s, char c);
+char	*ft_strjoin(const char *s1, const char *s2);
+size_t	ft_strlen(const char *str);
+char	*ft_strdup(const char *s);
 
 #endif

@@ -6,38 +6,47 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:59:53 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/19 16:02:19 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/20 15:45:15 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	*ft_calloc(size_t count, size_t nbyte)
+char	*ft_strdup(const char *s)
 {
-	char	*str;
-
-	str = malloc(count * nbyte);
-	if (!str)
-		return (NULL);
-	ft_bzero(str, count * nbyte);	
-	return (str);
-}
-
-void	ft_bzero(void *b, size_t len)
-{
-	size_t			i;
-	unsigned char	*str;
+	unsigned int	i;
+	char			*dup;
 
 	i = 0;
-	str = (unsigned char *)b;
-	while (i < len)
+	dup = ft_calloc(ft_strlen(s), sizeof(char));
+	if (!dup)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	return (dup);
+}
+
+void	*ft_calloc(size_t size, size_t nbyte)
+{
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	str = malloc(size * nbyte);
+	if (!str)
+		return (NULL);
+	while (i <= size * nbyte)
 	{
 		str[i] = '\0';
 		i++;
 	}
+	return (str);
 }
 
-unsigned int	ft_strlen(char *str)
+size_t	ft_strlen(const char *str)
 {
 	unsigned int	i;
 
@@ -46,9 +55,44 @@ unsigned int	ft_strlen(char *str)
 		i++;
 	return (i);
 }
-/*
-char	*str_join()
+
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	return (str_joined);
+	char			*str;
+	unsigned int	i;
+	unsigned int	j;
+
+	i = 0;
+	j = 0;
+	str = ft_calloc((ft_strlen(s1) + ft_strlen(s2)) + 1, sizeof(char));
+	if (!str)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		str[j] = s1[i];
+		i++;
+		j++;
+	}
+	i = 0;
+	while (s2[i] != '\0')
+	{
+		str[j] = s2[i];
+		i++;
+		j++;
+	}
+	return (str);
 }
-*/
+
+char	*ft_strchr(const char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	return (NULL);
+}
