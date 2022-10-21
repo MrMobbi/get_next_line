@@ -6,7 +6,7 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:52:33 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/21 16:00:07 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/21 17:02:26 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*read_buffer(int fd, char *str)
 	while (byte_read > 0)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
-		buffer[byte_read] = '\0';
 		str = free_and_join(buffer, str);
 		if (ft_strchr(str, '\n'))
 			break ;
@@ -81,7 +80,8 @@ char	*ft_next_line(char *buffer)
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	i += 1;
+	if (buffer[i] == '\n')
+		i += 1;
 	str = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
 	if (!str)
 		return (NULL);

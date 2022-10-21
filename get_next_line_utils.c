@@ -6,28 +6,11 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:59:53 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/20 15:45:15 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/21 16:48:27 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strdup(const char *s)
-{
-	unsigned int	i;
-	char			*dup;
-
-	i = 0;
-	dup = ft_calloc(ft_strlen(s), sizeof(char));
-	if (!dup)
-		return (NULL);
-	while (s[i] != '\0')
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	return (dup);
-}
 
 void	*ft_calloc(size_t size, size_t nbyte)
 {
@@ -38,7 +21,7 @@ void	*ft_calloc(size_t size, size_t nbyte)
 	str = malloc(size * nbyte);
 	if (!str)
 		return (NULL);
-	while (i <= size * nbyte)
+	while (i < size * nbyte)
 	{
 		str[i] = '\0';
 		i++;
