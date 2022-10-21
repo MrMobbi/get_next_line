@@ -6,7 +6,7 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:52:33 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/21 17:02:26 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/21 17:42:24 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ char	*read_buffer(int fd, char *str)
 			break ;
 	}
 	free(buffer);
+	if (str[0] == '\0')
+	{
+		free(str);
+		return (NULL);
+	}
 	return (str);
 }
 
@@ -56,9 +61,12 @@ char	*ft_line(char *buffer)
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	len_line = i;
+	if (buffer[i] == '\n')
+		len_line = i + 1;
+	else
+		len_line = i;
 	i = 0;
-	line = ft_calloc(len_line + 2, sizeof(char));
+	line = ft_calloc(len_line + 1, sizeof(char));
 	if (!line)
 		return (NULL);
 	while (i < len_line)
@@ -66,7 +74,6 @@ char	*ft_line(char *buffer)
 		line[i] = buffer[i];
 		i++;
 	}
-	line[len_line] = '\n';
 	return (line);
 }
 
@@ -104,8 +111,6 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer = read_buffer(fd, buffer);
 	if (!buffer)
-		return (NULL);
-	if (buffer[0] == '\0')
 		return (NULL);
 	line = ft_line(buffer);
 	buffer = ft_next_line(buffer);
