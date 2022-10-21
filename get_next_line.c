@@ -6,7 +6,7 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:52:33 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/21 17:42:24 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/21 17:53:55 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ char	*read_buffer(int fd, char *str)
 	int		byte_read;
 
 	if (!str)
-	{
 		str = ft_calloc(1, 1);
-		if (!str)
-			return (NULL);
-	}
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
