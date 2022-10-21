@@ -6,7 +6,7 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:52:33 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/21 13:56:56 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/21 16:00:07 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*free_and_join(char *buffer, char *str)
 	char	*tmp;
 
 	tmp = ft_strjoin(str, buffer);
-	free(buffer);
+	free(str);
 	return (tmp);
 }
 
@@ -32,18 +32,19 @@ char	*read_buffer(int fd, char *str)
 		if (!str)
 			return (NULL);
 	}
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (NULL);
 	byte_read = 1;
 	while (byte_read > 0)
 	{
-		buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-		if (!buffer)
-			return (NULL);
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		buffer[byte_read] = '\0';
 		str = free_and_join(buffer, str);
 		if (ft_strchr(str, '\n'))
 			break ;
 	}
+	free(buffer);
 	return (str);
 }
 
@@ -78,7 +79,7 @@ char	*ft_next_line(char *buffer)
 
 	j = 0;
 	i = 0;
-	while (buffer[i] != '\n')
+	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
 	i += 1;
 	str = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
@@ -90,6 +91,7 @@ char	*ft_next_line(char *buffer)
 		j++;
 		i++;
 	}
+	free(buffer);
 	return (str);
 }
 
@@ -101,10 +103,13 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = read_buffer(fd, buffer);
+	if (!buffer)
+		return (NULL);
+	if (buffer[0] == '\0')
+		return (NULL);
 	line = ft_line(buffer);
 	buffer = ft_next_line(buffer);
 	return (line);
-	free(buffer);
 }
 /*
 int	main(void)
@@ -114,25 +119,31 @@ int	main(void)
 
 	fd = open("test.txt", O_RDONLY);
 	test = get_next_line(fd);
-	printf("--------------------\n");
+	printf("[1]--------------------\n");
 	printf("{%s}\n", test);
 	test = get_next_line(fd);
-	printf("--------------------\n");
+	printf("[2]--------------------\n");
 	printf("{%s}\n", test);
 	test = get_next_line(fd);
-	printf("--------------------\n");
+	printf("[3]--------------------\n");
 	printf("{%s}\n", test);
 	test = get_next_line(fd);
-	printf("--------------------\n");
+	printf("[4]--------------------\n");
 	printf("{%s}\n", test);
 	test = get_next_line(fd);
-	printf("--------------------\n");
+	printf("[5]--------------------\n");
 	printf("{%s}\n", test);
 	test = get_next_line(fd);
-	printf("--------------------\n");
+	printf("[6]--------------------\n");
 	printf("{%s}\n", test);
 	test = get_next_line(fd);
-	printf("--------------------\n");
+	printf("[7]--------------------\n");
+	printf("{%s}\n", test);
+	test = get_next_line(fd);
+	printf("[8]--------------------\n");
+	printf("{%s}\n", test);
+	test = get_next_line(fd);
+	printf("[9]--------------------\n");
 	printf("{%s}\n", test);
 	free(test);
 	test = 0;
