@@ -6,7 +6,7 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:52:33 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/20 15:50:21 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/21 13:56:56 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,66 @@ char	*read_buffer(int fd, char *str)
 	return (str);
 }
 
+char	*ft_line(char *buffer)
+{
+	unsigned int	i;
+	size_t			len_line;
+	char			*line;
+
+	i = 0;
+	while (buffer[i] != '\n' && buffer[i] != '\0')
+		i++;
+	len_line = i;
+	i = 0;
+	line = ft_calloc(len_line + 2, sizeof(char));
+	if (!line)
+		return (NULL);
+	while (i < len_line)
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	line[len_line] = '\n';
+	return (line);
+}
+
+char	*ft_next_line(char *buffer)
+{
+	char	*str;
+	size_t	i;
+	size_t	j;
+
+	j = 0;
+	i = 0;
+	while (buffer[i] != '\n')
+		i++;
+	i += 1;
+	str = ft_calloc(ft_strlen(buffer) - i + 1, sizeof(char));
+	if (!str)
+		return (NULL);
+	while (buffer[i] != '\0')
+	{
+		str[j] = buffer[i];
+		j++;
+		i++;
+	}
+	return (str);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*buffer;
 	char		*line;
 
-	(void) line;
-	buffer = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = read_buffer(fd, buffer);
-	// trim le buffer pour avoir la ligne jusqu'au "\n"
-	// trim le buffer pour recommencer la fonction depuis le +1 du "\n"
-	return (buffer);
+	line = ft_line(buffer);
+	buffer = ft_next_line(buffer);
+	return (line);
+	free(buffer);
 }
-
+/*
 int	main(void)
 {
 	int	fd;
@@ -74,8 +119,23 @@ int	main(void)
 	test = get_next_line(fd);
 	printf("--------------------\n");
 	printf("{%s}\n", test);
-	close(fd);
+	test = get_next_line(fd);
+	printf("--------------------\n");
+	printf("{%s}\n", test);
+	test = get_next_line(fd);
+	printf("--------------------\n");
+	printf("{%s}\n", test);
+	test = get_next_line(fd);
+	printf("--------------------\n");
+	printf("{%s}\n", test);
+	test = get_next_line(fd);
+	printf("--------------------\n");
+	printf("{%s}\n", test);
+	test = get_next_line(fd);
+	printf("--------------------\n");
+	printf("{%s}\n", test);
 	free(test);
 	test = 0;
 	return (0);
 }
+*/
