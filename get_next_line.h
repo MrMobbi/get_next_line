@@ -6,7 +6,7 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:50:35 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/21 16:48:36 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/22 16:27:15 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ void	*ft_calloc(size_t count, size_t nbyte);
 char	*ft_strchr(const char *s, char c);
 char	*ft_strjoin(const char *s1, const char *s2);
 size_t	ft_strlen(const char *str);
+char	*ft_free_and_join(char *buffer, char *str);
 
 #endif

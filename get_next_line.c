@@ -6,22 +6,28 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:52:33 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/21 17:53:55 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/22 16:27:48 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*free_and_join(char *buffer, char *str)
+char	*ft_join_str(char *buffer, char *str, int byte_read, int fd)
 {
-	char	*tmp;
-
-	tmp = ft_strjoin(str, buffer);
-	free(str);
-	return (tmp);
+	while (byte_read > 0)
+	{
+		byte_read = read(fd, buffer, BUFFER_SIZE);
+		if (byte_read == 0)
+			break ;
+		buffer[byte_read] = '\0';
+		str = ft_free_and_join(buffer, str);
+		if (ft_strchr(str, '\n'))
+			break ;
+	}
+	return (str);
 }
 
-char	*read_buffer(int fd, char *str)
+char	*ft_read_buffer(int fd, char *str)
 {
 	char	*buffer;
 	int		byte_read;
@@ -32,13 +38,7 @@ char	*read_buffer(int fd, char *str)
 	if (!buffer)
 		return (NULL);
 	byte_read = 1;
-	while (byte_read > 0)
-	{
-		byte_read = read(fd, buffer, BUFFER_SIZE);
-		str = free_and_join(buffer, str);
-		if (ft_strchr(str, '\n'))
-			break ;
-	}
+	str = ft_join_str(buffer, str, byte_read, fd);
 	free(buffer);
 	if (str[0] == '\0')
 	{
@@ -105,7 +105,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = read_buffer(fd, buffer);
+	buffer = ft_read_buffer(fd, buffer);
 	if (!buffer)
 		return (NULL);
 	line = ft_line(buffer);
@@ -118,7 +118,7 @@ int	main(void)
 	int	fd;
 	char *test;
 
-	fd = open("test.txt", O_RDONLY);
+	fd = open("bonjour.txt", O_RDONLY);
 	test = get_next_line(fd);
 	printf("[1]--------------------\n");
 	printf("{%s}\n", test);

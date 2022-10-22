@@ -6,7 +6,7 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 14:59:53 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/21 16:48:27 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/22 16:28:08 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,13 @@ char	*ft_strchr(const char *s, char c)
 		i++;
 	}
 	return (NULL);
+}
+
+char	*ft_free_and_join(char *buffer, char *str)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(str, buffer);
+	free(str);
+	return (tmp);
 }
