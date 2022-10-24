@@ -6,7 +6,7 @@
 /*   By: mjulliat <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 11:52:33 by mjulliat          #+#    #+#             */
-/*   Updated: 2022/10/24 10:59:19 by mjulliat         ###   ########.fr       */
+/*   Updated: 2022/10/24 10:58:44 by mjulliat         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 char	*ft_join_str(char *buffer, char *str, int byte_read, int fd)
 {
+	char	*tmp;
+
 	while (byte_read > 0)
 	{
 		byte_read = read(fd, buffer, BUFFER_SIZE);
 		if (byte_read <= 0)
 			break ;
 		buffer[byte_read] = '\0';
-		str = ft_free_and_join(buffer, str);
+		tmp = ft_strjoin(str, buffer);
+		free(str);
+		str = tmp;
 		if (ft_strchr(str, '\n'))
 			break ;
 	}
@@ -101,15 +105,15 @@ char	*ft_next_line(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
+	static char	*buffer[4096];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = ft_read_buffer(fd, buffer);
-	if (!buffer)
+	buffer[fd] = ft_read_buffer(fd, buffer[fd]);
+	if (!buffer[fd])
 		return (NULL);
-	line = ft_line(buffer);
-	buffer = ft_next_line(buffer);
+	line = ft_line(buffer[fd]);
+	buffer[fd] = ft_next_line(buffer[fd]);
 	return (line);
 }
